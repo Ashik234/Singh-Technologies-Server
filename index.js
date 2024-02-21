@@ -1,16 +1,20 @@
 const express = require("express")
 const app = express()
+const dbConfig = require("./config/DBconfig");
 const cors = require("cors")
+require("dotenv").config();
+const userRouter = require("./routes/userRouter")
+app.use(express.json())
 
 app.use(cors({
     origin:"http://localhost:5173",
-    methods:["GET","POST"]
+    methods:["GET","POST"],
+    credentials:true
 }))
 
-app.get('/',(req,res)=>{
-    res.send('Hello World!')
-})
+app.use("/",userRouter)
 
-app.listen(3000,()=>{
-    console.log("Server Running");
+const port = process.env.port
+app.listen(port,()=>{
+    console.log(`Server Started Running On Port ${port}`);
 })
